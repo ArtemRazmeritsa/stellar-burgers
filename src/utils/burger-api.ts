@@ -6,7 +6,7 @@ const URL = process.env.BURGER_API_URL;
 const checkResponse = <T>(res: Response): Promise<T> =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 
-type TServerResponse<T> = {
+export type TServerResponse<T> = {
   success: boolean;
 } & T;
 
@@ -19,7 +19,7 @@ export const refreshToken = (): Promise<TRefreshResponse> =>
   fetch(`${URL}/auth/token`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken')
@@ -61,13 +61,13 @@ type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
 
-type TFeedsResponse = TServerResponse<{
+export type TFeedsResponse = TServerResponse<{
   orders: TOrder[];
   total: number;
   totalToday: number;
 }>;
 
-type TOrdersResponse = TServerResponse<{
+export type TOrdersResponse = TServerResponse<{
   data: TOrder[];
 }>;
 
@@ -91,15 +91,15 @@ export const getOrdersApi = () =>
   fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      'Content-Type': 'application/json',
+      'authorization': getCookie('accessToken')
     } as HeadersInit
   }).then((data) => {
-    if (data?.success) return data.orders;
+    if (data?.success) return data;
     return Promise.reject(data);
   });
 
-type TNewOrderResponse = TServerResponse<{
+export type TNewOrderResponse = TServerResponse<{
   order: TOrder;
   name: string;
 }>;
@@ -109,7 +109,7 @@ export const orderBurgerApi = (data: string[]) =>
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      'authorization': getCookie('accessToken')
     } as HeadersInit,
     body: JSON.stringify({
       ingredients: data
@@ -119,7 +119,7 @@ export const orderBurgerApi = (data: string[]) =>
     return Promise.reject(data);
   });
 
-type TOrderResponse = TServerResponse<{
+export type TOrderResponse = TServerResponse<{
   orders: TOrder[];
 }>;
 
@@ -137,7 +137,7 @@ export type TRegisterData = {
   password: string;
 };
 
-type TAuthResponse = TServerResponse<{
+export type TAuthResponse = TServerResponse<{
   refreshToken: string;
   accessToken: string;
   user: TUser;
@@ -166,7 +166,7 @@ export const loginUserApi = (data: TLoginData) =>
   fetch(`${URL}/auth/login`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
@@ -180,7 +180,7 @@ export const forgotPasswordApi = (data: { email: string }) =>
   fetch(`${URL}/password-reset`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
@@ -194,7 +194,7 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
   fetch(`${URL}/password-reset/reset`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
@@ -204,7 +204,7 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
       return Promise.reject(data);
     });
 
-type TUserResponse = TServerResponse<{ user: TUser }>;
+export type TUserResponse = TServerResponse<{ user: TUser }>;
 
 export const getUserApi = () =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
@@ -217,8 +217,8 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      'Content-Type': 'application/json',
+      'authorization': getCookie('accessToken')
     } as HeadersInit,
     body: JSON.stringify(user)
   });
@@ -227,7 +227,7 @@ export const logoutApi = () =>
   fetch(`${URL}/auth/logout`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken')
