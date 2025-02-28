@@ -4,12 +4,11 @@ import { getUserOrders } from '@slices/orders/orders-thunks';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
+import { useDispatch, useSelector } from '@store';
 
 export const Feed: FC = () => {
   const orders = useSelector(selectOrders);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {

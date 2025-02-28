@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@store';
 import { RootState } from 'src/services/store';
 import { selectUserOrders } from '@slices/orders/orders-slice';
 

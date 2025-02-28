@@ -1,6 +1,6 @@
 import { selectAuthChecked, selectUserData } from '@slices/user/user-slice';
 import { Preloader } from '@ui';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@store';
 import { Navigate, useLocation } from 'react-router-dom';
 
 type ProtectedRouteProps = {

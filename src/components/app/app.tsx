@@ -14,9 +14,8 @@ import styles from './app.module.css';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AppHeader, OrderInfo, Modal, IngredientDetails } from '@components';
 import { ProtectedRoute } from '../protected-route';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '@store';
 import { getIngredients } from '@slices/ingredients/ingredients-slice';
-import { AppDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getUser } from '@slices/user/user-thunks';
 import { checkUser, selectUserData } from '@slices/user/user-slice';
@@ -25,7 +24,7 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const backgroundLocation = location.state && location.state.background;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const user = useSelector(selectUserData);
   const userName = user?.name;
 
@@ -127,7 +126,12 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='' onClose={() => navigate(-1)}>
+                <Modal
+                  title=''
+                  onClose={() => {
+                    navigate(-1);
+                  }}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

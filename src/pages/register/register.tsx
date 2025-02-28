@@ -2,8 +2,8 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { TRegisterData } from '@api';
 import { registerUser } from '../../services/slices/user/user-thunks';
-import { useDispatch } from '../../services//store';
-import { useSelector } from 'react-redux';
+import { useDispatch } from '@store';
+import { useSelector } from '@store';
 import { selectErrorRequest } from '@slices/user/user-slice';
 
 export const Register: FC = () => {

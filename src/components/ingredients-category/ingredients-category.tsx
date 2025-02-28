@@ -3,7 +3,7 @@ import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import {} from '../../services/slices/constructor-slice';
-import { useSelector } from 'react-redux';
+import { useSelector } from '@store';
 import {
   selectConstructorBun,
   selectConstructorIngredients
